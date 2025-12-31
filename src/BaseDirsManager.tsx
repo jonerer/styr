@@ -3,7 +3,7 @@ import type { BaseDirsAPI } from './types';
 
 function ensureBaseDirsAPI(): BaseDirsAPI {
   if (!window.baseDirsAPI) {
-    throw new Error('baseDirsAPI is not available');
+    throw new Error('baseDirsAPI is not available. This may indicate the preload script failed to load or the Electron context is not properly initialized.');
   }
   return window.baseDirsAPI;
 }
