@@ -1,5 +1,18 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
+import Store from 'electron-store';
+
+// Define the store schema
+interface StoreSchema {
+  baseDirs: string[];
+}
+
+// Initialize electron-store
+const store = new Store<StoreSchema>({
+  defaults: {
+    baseDirs: [],
+  },
+});
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -10,6 +23,7 @@ function createWindow(): void {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js'),
     },
   });
 
@@ -24,6 +38,37 @@ function createWindow(): void {
     mainWindow = null;
   });
 }
+
+// IPC handlers for base directories management
+ipcMain.handle('basedirs:get', () => {
+  return store.get('baseDirs', []);
+});
+
+ipcMain.handle('basedirs:add', (_event, dir: string) => {
+  const baseDirs = store.get('baseDirs', []);
+  if (!baseDirs.includes(dir)) {
+    baseDirs.push(dir);
+    store.set('baseDirs', baseDirs);
+  }
+});
+
+ipcMain.handle('basedirs:remove', (_event, dir: string) => {
+  const baseDirs = store.get('baseDirs', []);
+  const filtered = baseDirs.filter((d) => d !== dir);
+  store.set('baseDirs', filtered);
+});
+
+ipcMain.handle('basedirs:browse', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
+  });
+  
+  if (result.canceled) {
+    return null;
+  }
+  
+  return result.filePaths[0] || null;
+});
 
 app.whenReady().then(() => {
   createWindow();
