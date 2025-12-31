@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
     "dev:vite": "vite",
     "dev:electron": "wait-on http://localhost:5173 && tsx src/main.ts",
     "build": "tsc --noEmit && vite build && yarn build:electron",
@@ -24,6 +24,7 @@
     "@vitejs/plugin-react": "^5.1.2",
     "autoprefixer": "^10.4.23",
     "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
     "electron": "^39.2.7",
     "electron-builder": "^26.0.12",
     "playwright": "^1.57.0",
