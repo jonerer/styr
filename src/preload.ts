@@ -1,4 +1,5 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import electron from 'electron';
+const { contextBridge, ipcRenderer } = electron;
 import type { BaseDirsAPI } from './types';
 
 // Expose protected methods that allow the renderer process to use

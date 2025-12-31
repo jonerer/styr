@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
     "dev:vite": "vite",
-    "dev:electron": "wait-on http://localhost:5173 && tsx src/main.ts",
+    "dev:electron": "wait-on http://localhost:5173 && cross-env NODE_OPTIONS='--import tsx --no-warnings' electron --no-sandbox src/main.ts",
     "build": "tsc --noEmit && vite build && yarn build:electron",
     "build:electron": "tsc src/main.ts src/preload.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --esModuleInterop --allowImportingTsExtensions false --skipLibCheck true",
     "start": "electron .",
