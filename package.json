@@ -5,10 +5,10 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
+    "dev": "NODE_ENV=development concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
     "dev:vite": "vite",
     "dev:electron": "wait-on http://localhost:5173 && tsx --experimental-strip-types src/main.ts",
-    "build": "tsc --noEmit && vite build && npm run build:electron",
+    "build": "tsc --noEmit && vite build && yarn build:electron",
     "build:electron": "tsc src/main.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --esModuleInterop --allowImportingTsExtensions false --skipLibCheck true",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
