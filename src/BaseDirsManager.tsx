@@ -10,6 +10,9 @@ export function BaseDirsManager() {
 
   const loadBaseDirs = async () => {
     try {
+      if (!window.baseDirsAPI) {
+        throw new Error('baseDirsAPI is not available');
+      }
       const dirs = await window.baseDirsAPI.getBaseDirs();
       setBaseDirs(dirs);
     } catch (error) {
@@ -21,6 +24,9 @@ export function BaseDirsManager() {
 
   const handleAddDirectory = async () => {
     try {
+      if (!window.baseDirsAPI) {
+        throw new Error('baseDirsAPI is not available');
+      }
       const dir = await window.baseDirsAPI.browseDirectory();
       if (dir) {
         await window.baseDirsAPI.addBaseDir(dir);
@@ -33,6 +39,9 @@ export function BaseDirsManager() {
 
   const handleRemoveDirectory = async (dir: string) => {
     try {
+      if (!window.baseDirsAPI) {
+        throw new Error('baseDirsAPI is not available');
+      }
       await window.baseDirsAPI.removeBaseDir(dir);
       await loadBaseDirs();
     } catch (error) {

@@ -18,7 +18,7 @@ export interface BaseDirsAPI {
 
 declare global {
   interface Window {
-    baseDirsAPI: BaseDirsAPI;
+    baseDirsAPI?: BaseDirsAPI;
   }
 }
 
