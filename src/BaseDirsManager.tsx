@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import type { BaseDirsAPI } from './types';
+
+function ensureBaseDirsAPI(): BaseDirsAPI {
+  if (!window.baseDirsAPI) {
+    throw new Error('baseDirsAPI is not available');
+  }
+  return window.baseDirsAPI;
+}
 
 export function BaseDirsManager() {
   const [baseDirs, setBaseDirs] = useState<string[]>([]);
@@ -10,10 +18,8 @@ export function BaseDirsManager() {
 
   const loadBaseDirs = async () => {
     try {
-      if (!window.baseDirsAPI) {
-        throw new Error('baseDirsAPI is not available');
-      }
-      const dirs = await window.baseDirsAPI.getBaseDirs();
+      const api = ensureBaseDirsAPI();
+      const dirs = await api.getBaseDirs();
       setBaseDirs(dirs);
     } catch (error) {
       console.error('Failed to load base directories:', error);
@@ -24,12 +30,10 @@ export function BaseDirsManager() {
 
   const handleAddDirectory = async () => {
     try {
-      if (!window.baseDirsAPI) {
-        throw new Error('baseDirsAPI is not available');
-      }
-      const dir = await window.baseDirsAPI.browseDirectory();
+      const api = ensureBaseDirsAPI();
+      const dir = await api.browseDirectory();
       if (dir) {
-        await window.baseDirsAPI.addBaseDir(dir);
+        await api.addBaseDir(dir);
         await loadBaseDirs();
       }
     } catch (error) {
@@ -39,10 +43,8 @@ export function BaseDirsManager() {
 
   const handleRemoveDirectory = async (dir: string) => {
     try {
-      if (!window.baseDirsAPI) {
-        throw new Error('baseDirsAPI is not available');
-      }
-      await window.baseDirsAPI.removeBaseDir(dir);
+      const api = ensureBaseDirsAPI();
+      await api.removeBaseDir(dir);
       await loadBaseDirs();
     } catch (error) {
       console.error('Failed to remove directory:', error);
