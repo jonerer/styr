@@ -49,17 +49,24 @@ ipcMain.handle('basedirs:add', (_event, dir: string) => {
   if (!baseDirs.includes(dir)) {
     baseDirs.push(dir);
     store.set('baseDirs', baseDirs);
+    return { success: true, alreadyExists: false };
   }
+  return { success: true, alreadyExists: true };
 });
 
 ipcMain.handle('basedirs:remove', (_event, dir: string) => {
   const baseDirs = store.get('baseDirs', []);
   const filtered = baseDirs.filter((d) => d !== dir);
   store.set('baseDirs', filtered);
+  return { success: true };
 });
 
 ipcMain.handle('basedirs:browse', async () => {
-  const result = await dialog.showOpenDialog({
+  if (!mainWindow) {
+    return null;
+  }
+  
+  const result = await dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory'],
   });
   
