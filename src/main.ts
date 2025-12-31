@@ -1,20 +1,23 @@
-import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import electron from 'electron';
+const { app, BrowserWindow, ipcMain, dialog } = electron;
+import type { BrowserWindow as BrowserWindowType } from 'electron';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import Store from 'electron-store';
+
+// ES module compatibility - get __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define the store schema
 interface StoreSchema {
   baseDirs: string[];
 }
 
-// Initialize electron-store
-const store = new Store<StoreSchema>({
-  defaults: {
-    baseDirs: [],
-  },
-});
+// Store will be initialized after app is ready
+let store: Store<StoreSchema>;
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow: BrowserWindowType | null = null;
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -40,44 +43,56 @@ function createWindow(): void {
 }
 
 // IPC handlers for base directories management
-ipcMain.handle('basedirs:get', () => {
-  return store.get('baseDirs', []);
-});
-
-ipcMain.handle('basedirs:add', (_event, dir: string) => {
-  const baseDirs = store.get('baseDirs', []);
-  if (!baseDirs.includes(dir)) {
-    baseDirs.push(dir);
-    store.set('baseDirs', baseDirs);
-    return { success: true, alreadyExists: false };
-  }
-  return { success: true, alreadyExists: true };
-});
-
-ipcMain.handle('basedirs:remove', (_event, dir: string) => {
-  const baseDirs = store.get('baseDirs', []);
-  const filtered = baseDirs.filter((d) => d !== dir);
-  store.set('baseDirs', filtered);
-  return { success: true };
-});
-
-ipcMain.handle('basedirs:browse', async () => {
-  if (!mainWindow) {
-    return null;
-  }
-  
-  const result = await dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory'],
+function setupIpcHandlers(): void {
+  ipcMain.handle('basedirs:get', () => {
+    return store.get('baseDirs', []);
   });
-  
-  if (result.canceled) {
-    return null;
-  }
-  
-  return result.filePaths[0] || null;
-});
+
+  ipcMain.handle('basedirs:add', (_event, dir: string) => {
+    const baseDirs = store.get('baseDirs', []);
+    if (!baseDirs.includes(dir)) {
+      baseDirs.push(dir);
+      store.set('baseDirs', baseDirs);
+      return { success: true, alreadyExists: false };
+    }
+    return { success: true, alreadyExists: true };
+  });
+
+  ipcMain.handle('basedirs:remove', (_event, dir: string) => {
+    const baseDirs = store.get('baseDirs', []);
+    const filtered = baseDirs.filter((d) => d !== dir);
+    store.set('baseDirs', filtered);
+    return { success: true };
+  });
+
+  ipcMain.handle('basedirs:browse', async () => {
+    if (!mainWindow) {
+      return null;
+    }
+    
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openDirectory'],
+    });
+    
+    if (result.canceled) {
+      return null;
+    }
+    
+    return result.filePaths[0] || null;
+  });
+}
 
 app.whenReady().then(() => {
+  // Initialize electron-store after app is ready
+  store = new Store<StoreSchema>({
+    defaults: {
+      baseDirs: [],
+    },
+  });
+
+  // Setup IPC handlers
+  setupIpcHandlers();
+
   createWindow();
 
   app.on('activate', () => {
