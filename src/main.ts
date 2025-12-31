@@ -80,7 +80,6 @@ function setupIpcHandlers(): void {
 app.whenReady().then(() => {
   // Initialize electron-store after app is ready
   store = new Store<StoreSchema>({
-    name: 'styr-config',
     defaults: {
       baseDirs: [],
     },
