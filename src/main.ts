@@ -1,5 +1,6 @@
 import electron from 'electron';
 const { app, BrowserWindow, ipcMain, dialog } = electron;
+import type { BrowserWindow as BrowserWindowType } from 'electron';
 import * as path from 'path';
 import Store from 'electron-store';
 
@@ -11,7 +12,7 @@ interface StoreSchema {
 // Store will be initialized after app is ready
 let store: Store<StoreSchema>;
 
-let mainWindow: BrowserWindow | null = null;
+let mainWindow: BrowserWindowType | null = null;
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
