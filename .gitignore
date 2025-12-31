@@ -1,7 +1,9 @@
 node_modules
 dist
+dist-renderer
 out
 *.log
+package-lock.json
 .DS_Store
 .vscode
 .idea

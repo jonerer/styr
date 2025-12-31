@@ -14,12 +14,12 @@ An Electron desktop application with React and TypeScript that displays "Hello W
 ## Prerequisites
 
 - Node.js (v20 or higher recommended)
-- npm
+- yarn
 
 ## Installation
 
 ```bash
-npm install
+yarn install
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ npm install
 Run the app with hot module replacement:
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 This will:
@@ -42,7 +42,7 @@ This will:
 Build the application:
 
 ```bash
-npm run build
+yarn build
 ```
 
 This creates:
@@ -54,7 +54,7 @@ This creates:
 After building, start the app:
 
 ```bash
-npm start
+yarn start
 ```
 
 ## Project Structure
@@ -85,8 +85,8 @@ styr/
 
 ## Scripts
 
-- `npm run dev` - Start development mode
-- `npm run build` - Build for production
-- `npm start` - Run the built application
-- `npm run dev:vite` - Start Vite dev server only
-- `npm run dev:electron` - Start Electron only (requires Vite running)
+- `yarn dev` - Start development mode
+- `yarn build` - Build for production
+- `yarn start` - Run the built application
+- `yarn dev:vite` - Start Vite dev server only
+- `yarn dev:electron` - Start Electron only (requires Vite running)
