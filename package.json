@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "NODE_ENV=development concurrently \"yarn dev:vite\" \"yarn dev:electron\"",
     "dev:vite": "vite",
-    "dev:electron": "wait-on http://localhost:5173 && tsx --experimental-strip-types src/main.ts",
+    "dev:electron": "wait-on http://localhost:5173 && tsx src/main.ts",
     "build": "tsc --noEmit && vite build && yarn build:electron",
-    "build:electron": "tsc src/main.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --esModuleInterop --allowImportingTsExtensions false --skipLibCheck true",
+    "build:electron": "tsc src/main.ts src/preload.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --esModuleInterop --allowImportingTsExtensions false --skipLibCheck true",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,6 +36,7 @@
     "wait-on": "^9.0.3"
   },
   "dependencies": {
+    "electron-store": "^11.0.2",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   }
