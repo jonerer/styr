@@ -2,7 +2,12 @@ import electron from 'electron';
 const { app, BrowserWindow, ipcMain, dialog } = electron;
 import type { BrowserWindow as BrowserWindowType } from 'electron';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import Store from 'electron-store';
+
+// ES module compatibility - get __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define the store schema
 interface StoreSchema {
