@@ -8,6 +8,7 @@ An Electron desktop application with React and TypeScript that displays "Hello W
 - ⚛️ **React 19** - Modern UI with TypeScript
 - 📘 **TypeScript 5.9** - Full type safety with modern features
 - 🚀 **Vite 7** - Lightning-fast development server and optimized builds
+- 🎨 **Tailwind CSS v4** - Utility-first CSS framework with PostCSS
 - 🎨 **Beautiful UI** - Gradient background with centered text
 
 ## Prerequisites
@@ -63,9 +64,11 @@ styr/
 ├── src/
 │   ├── main.ts        # Electron main process
 │   ├── App.tsx        # Main React component
-│   └── renderer.tsx   # React renderer entry point
+│   ├── renderer.tsx   # React renderer entry point
+│   └── index.css      # Tailwind CSS imports
 ├── index.html         # HTML template
 ├── vite.config.ts     # Vite configuration
+├── postcss.config.js  # PostCSS configuration for Tailwind
 ├── tsconfig.json      # TypeScript configuration
 └── package.json       # Project dependencies and scripts
 ```
@@ -76,6 +79,8 @@ styr/
 - **React** - UI library
 - **TypeScript** - Type-safe JavaScript
 - **Vite** - Build tool and dev server
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **PostCSS** - CSS transformation with Tailwind and Autoprefixer
 - **tsx** - TypeScript execution with type stripping
 
 ## Scripts
