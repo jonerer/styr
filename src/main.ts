@@ -9,6 +9,15 @@ import Store from 'electron-store';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Get the preload path - handle different directory structures in dev vs prod
+// - Development (tsx): main.ts runs from src/, __dirname = /path/to/src
+//   → preload is at ../dist/preload.js (compiled by build:preload)
+// - Production: main.js runs from dist/, __dirname = /path/to/dist
+//   → preload is at ./preload.js
+const preloadPath = process.env.NODE_ENV === 'development'
+  ? path.join(__dirname, '../dist/preload.js')
+  : path.join(__dirname, 'preload.js');
+
 // Define the store schema
 interface StoreSchema {
   baseDirs: string[];
@@ -26,7 +35,7 @@ function createWindow(): void {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: preloadPath,
     },
   });
 
