@@ -9,7 +9,7 @@
     "dev:vite": "vite",
     "dev:electron": "wait-on http://localhost:5173 && cross-env NODE_OPTIONS=--import=tsx electron --no-sandbox src/main.ts",
     "build": "tsc --noEmit && vite build && yarn build:electron",
-    "build:electron": "tsc src/main.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --esModuleInterop --allowImportingTsExtensions false --skipLibCheck true && tsc src/preload.ts --outDir dist --module CommonJS --target ES2020 --moduleResolution node --esModuleInterop --skipLibCheck true",
+    "build:electron": "tsc src/main.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --esModuleInterop --allowImportingTsExtensions false --skipLibCheck true && yarn build:preload",
     "build:preload": "tsc src/preload.ts --outDir dist --module CommonJS --target ES2020 --moduleResolution node --esModuleInterop --skipLibCheck true",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
