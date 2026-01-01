@@ -1,12 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import type { BaseDirsAPI } from './types';
-
-function ensureBaseDirsAPI(): BaseDirsAPI {
-  if (!window.baseDirsAPI) {
-    throw new Error('baseDirsAPI is not available. This may indicate the preload script failed to load or the Electron context is not properly initialized.');
-  }
-  return window.baseDirsAPI;
-}
 
 export function BaseDirsManager() {
   const [baseDirs, setBaseDirs] = useState<string[]>([]);
@@ -18,8 +10,7 @@ export function BaseDirsManager() {
 
   const loadBaseDirs = async () => {
     try {
-      const api = ensureBaseDirsAPI();
-      const dirs = await api.getBaseDirs();
+      const dirs = await window.baseDirsAPI.getBaseDirs();
       setBaseDirs(dirs);
     } catch (error) {
       console.error('Failed to load base directories:', error);
@@ -30,10 +21,9 @@ export function BaseDirsManager() {
 
   const handleAddDirectory = async () => {
     try {
-      const api = ensureBaseDirsAPI();
-      const dir = await api.browseDirectory();
+      const dir = await window.baseDirsAPI.browseDirectory();
       if (dir) {
-        await api.addBaseDir(dir);
+        await window.baseDirsAPI.addBaseDir(dir);
         await loadBaseDirs();
       }
     } catch (error) {
@@ -43,8 +33,7 @@ export function BaseDirsManager() {
 
   const handleRemoveDirectory = async (dir: string) => {
     try {
-      const api = ensureBaseDirsAPI();
-      await api.removeBaseDir(dir);
+      await window.baseDirsAPI.removeBaseDir(dir);
       await loadBaseDirs();
     } catch (error) {
       console.error('Failed to remove directory:', error);
