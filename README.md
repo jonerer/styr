@@ -1,92 +1,148 @@
 # styr
 
-An Electron desktop application with React and TypeScript that displays "Hello World".
+Desktop application for managing base directories, implemented in both Electron and Wails frameworks for comparison.
+
+## Overview
+
+This repository contains two implementations of the same application:
+- **Electron version** (`electron/`) - Using Electron, React, and TypeScript
+- **Wails version** (`wails/`) - Using Wails (Go + React), React, and TypeScript
+
+Both versions provide identical functionality: managing a list of base directories with persistent storage.
 
 ## Features
 
-- ⚡ **Electron** - Cross-platform desktop application framework
-- ⚛️ **React 19** - Modern UI with TypeScript
-- 📘 **TypeScript 5.9** - Full type safety with modern features
-- 🚀 **Vite 7** - Lightning-fast development server and optimized builds
-- 🎨 **Tailwind CSS v4** - Utility-first CSS framework with PostCSS
-- 🎨 **Beautiful UI** - Gradient background with centered text
+Both implementations include:
+- ⚡ Modern desktop application with React UI
+- 📘 Full TypeScript support
+- 🎨 Tailwind CSS v4 for styling
+- 💾 Persistent storage (data saved between restarts)
+- 🎨 Beautiful gradient UI
+- 📁 Native directory picker dialog
+- ➕ Add base directories
+- ❌ Remove base directories
 
-## Prerequisites
+## Quick Start
 
-- Node.js (v20 or higher recommended)
-- yarn
-
-## Installation
+### Electron Version
 
 ```bash
+cd electron
 yarn install
-```
-
-## Usage
-
-### Development Mode
-
-Run the app with hot module replacement:
-
-```bash
 yarn dev
 ```
 
-This will:
-1. Start the Vite dev server on http://localhost:5173
-2. Launch the Electron app automatically
-3. Enable hot reloading for instant updates
+See [electron/README.md](electron/README.md) for detailed instructions.
 
-### Build for Production
-
-Build the application:
+### Wails Version
 
 ```bash
-yarn build
+cd wails
+cd frontend && npm install && cd ..
+wails dev
 ```
 
-This creates:
-- `dist/` - Compiled Electron main process
-- `dist-renderer/` - Optimized React bundle
+See [wails/README.md](wails/README.md) for detailed instructions.
 
-### Run Production Build
+## Comparison
 
-After building, start the app:
+### Electron (`electron/`)
 
-```bash
-yarn start
-```
+**Pros:**
+- Mature ecosystem with extensive libraries
+- Large community and resources
+- Cross-platform consistency
+- Easy web developer onboarding
+- electron-store for simple data persistence
+
+**Cons:**
+- Large binary size (100+ MB)
+- Higher memory usage (Node.js + Chromium)
+- Slower startup time
+
+**Tech Stack:**
+- Electron
+- React 19
+- TypeScript 5.9
+- Vite 7
+- Tailwind CSS v4
+- electron-store
+
+### Wails (`wails/`)
+
+**Pros:**
+- Small binary size (10-20 MB)
+- Low memory footprint
+- Fast startup time
+- Native Go performance
+- Direct OS integration
+
+**Cons:**
+- Smaller ecosystem compared to Electron
+- Platform-specific build requirements (GTK on Linux)
+- Newer framework with fewer community resources
+
+**Tech Stack:**
+- Wails v2
+- Go (backend)
+- React
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- JSON file storage
 
 ## Project Structure
 
 ```
 styr/
-├── src/
-│   ├── main.ts        # Electron main process
-│   ├── App.tsx        # Main React component
-│   ├── renderer.tsx   # React renderer entry point
-│   └── index.css      # Tailwind CSS imports
-├── index.html         # HTML template
-├── vite.config.ts     # Vite configuration
-├── postcss.config.js  # PostCSS configuration for Tailwind
-├── tsconfig.json      # TypeScript configuration
-└── package.json       # Project dependencies and scripts
+├── electron/          # Electron implementation
+│   ├── src/
+│   ├── package.json
+│   └── README.md
+├── wails/            # Wails implementation
+│   ├── app.go        # Go backend
+│   ├── main.go       # Entry point
+│   ├── frontend/     # React frontend
+│   └── README.md
+└── README.md         # This file
 ```
 
-## Technology Stack
+## Development
 
-- **Electron** - Desktop application framework
-- **React** - UI library
-- **TypeScript** - Type-safe JavaScript
-- **Vite** - Build tool and dev server
-- **Tailwind CSS v4** - Utility-first CSS framework
-- **PostCSS** - CSS transformation with Tailwind and Autoprefixer
-- **tsx** - TypeScript execution with type stripping
+Each implementation is self-contained in its own directory. Navigate to the respective directory and follow the instructions in the local README.md file.
 
-## Scripts
+## Building
 
-- `yarn dev` - Start development mode
-- `yarn build` - Build for production
-- `yarn start` - Run the built application
-- `yarn dev:vite` - Start Vite dev server only
-- `yarn dev:electron` - Start Electron only (requires Vite running)
+### Electron
+```bash
+cd electron
+yarn build
+yarn start
+```
+
+### Wails
+```bash
+cd wails
+wails build
+./build/bin/wails  # Run the built binary
+```
+
+## Storage Location
+
+Data is persisted in different locations:
+
+**Electron:**
+- Uses `electron-store` which stores data in platform-specific locations
+- Linux: `~/.config/styr/`
+- macOS: `~/Library/Application Support/styr/`
+- Windows: `%APPDATA%\styr\`
+
+**Wails:**
+- Uses JSON file storage
+- Linux: `~/.config/styr-wails/basedirs.json`
+- macOS: `~/Library/Application Support/styr-wails/basedirs.json`
+- Windows: `%APPDATA%\styr-wails\basedirs.json`
+
+## License
+
+ISC
