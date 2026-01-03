@@ -1,0 +1,97 @@
+# Styr - Electron Implementation
+
+An Electron desktop application with React and TypeScript that manages base directories.
+
+## Features
+
+- ⚡ **Electron** - Cross-platform desktop application framework
+- ⚛️ **React 19** - Modern UI with TypeScript
+- 📘 **TypeScript 5.9** - Full type safety with modern features
+- 🚀 **Vite 7** - Lightning-fast development server and optimized builds
+- 🎨 **Tailwind CSS v4** - Utility-first CSS framework with PostCSS
+- 💾 **Persistent Storage** - Settings saved between restarts using electron-store
+- 🎨 **Beautiful UI** - Gradient background with modern design
+
+## Prerequisites
+
+- Node.js (v20 or higher recommended)
+- yarn
+
+## Installation
+
+```bash
+yarn install
+```
+
+## Usage
+
+### Development Mode
+
+Run the app with hot module replacement:
+
+```bash
+yarn dev
+```
+
+This will:
+1. Start the Vite dev server on http://localhost:5173
+2. Launch the Electron app automatically
+3. Enable hot reloading for instant updates
+
+### Build for Production
+
+Build the application:
+
+```bash
+yarn build
+```
+
+This creates:
+- `dist/` - Compiled Electron main process
+- `dist-renderer/` - Optimized React bundle
+
+### Run Production Build
+
+After building, start the app:
+
+```bash
+yarn start
+```
+
+## Project Structure
+
+```
+electron/
+├── src/
+│   ├── main.ts              # Electron main process
+│   ├── App.tsx              # Main React component
+│   ├── BaseDirsManager.tsx  # Base directories UI component
+│   ├── renderer.tsx         # React renderer entry point
+│   ├── preload.ts           # Electron preload script
+│   ├── types.d.ts           # TypeScript type definitions
+│   └── index.css            # Tailwind CSS imports
+├── index.html               # HTML template
+├── vite.config.ts           # Vite configuration
+├── postcss.config.js        # PostCSS configuration for Tailwind
+├── tsconfig.json            # TypeScript configuration
+└── package.json             # Project dependencies and scripts
+```
+
+## Technology Stack
+
+- **Electron** - Desktop application framework
+- **React** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Build tool and dev server
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **PostCSS** - CSS transformation with Tailwind and Autoprefixer
+- **tsx** - TypeScript execution with type stripping
+- **electron-store** - Persistent data storage
+
+## Scripts
+
+- `yarn dev` - Start development mode
+- `yarn build` - Build for production
+- `yarn start` - Run the built application
+- `yarn dev:vite` - Start Vite dev server only
+- `yarn dev:electron` - Start Electron only (requires Vite running)
